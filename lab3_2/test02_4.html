@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <!--HEAD-->
+    <head>
+        <title>테스트2</title>
+    </head>
+    <!--BODY-->
+    <body>
+        <script>
+            var healthObj = {
+                name : "육동현",
+                lastTime : "AM 10:30",
+                showHealth : function(){ console.log(this.name + "님, 오늘은 " + this.lastTime + "에 운동을 하셨네요"); }
+                // 객체 내에서 this는 함수의 실행 컨텍스트로 해당 함수가 참조하고 있는 객체를 지칭 (실행시간에 결정)
+            }
+            healthObj.showHealth();
+
+            const obj = {
+                    // ES6부터는 function을 생략할 수 있음
+                    getName() { return this.name; },
+                    setName(name) { this.name = name; }
+                }
+            obj.setName("crong");
+            console.log(obj.getName());
+            console.log(obj);
+        </script>
+    </body>
+</html>

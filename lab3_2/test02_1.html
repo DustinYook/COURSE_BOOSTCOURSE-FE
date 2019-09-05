@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <!--HEAD-->
+    <head>
+        <title>테스트2</title>
+    </head>
+    <!--BODY-->
+    <body>
+        <script>
+
+            const Person = {
+                firstName:"John",
+                lastName: "Doe",
+            }; 
+
+            const FullName = {
+                getFullName() { return this.firstName + " " + this.lastName; }
+            };
+            
+            // call() 이용
+            console.log(FullName.getFullName.call(Person));
+
+            // apply() 이용
+            console.log(FullName.getFullName.apply(Person));
+
+            // apply()의 유용성 : 배열에 없는 메소드를 이용하고 싶을 때
+            console.log(Math.max.apply(null, [1,2,3]));
+        </script>
+    </body>
+</html>

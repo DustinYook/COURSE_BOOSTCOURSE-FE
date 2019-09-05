@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <!--HEAD-->
+    <head>
+        <title>테스트2</title>
+    </head>
+    <!--BODY-->
+    <body>
+
+        <ul class="tab">
+            <li class="tab_menu">1번</li>
+            <li class="tab_menu">2번</li>
+            <li class="tab_menu">3번</li>
+            <li class="tab_menu">4번</li>
+        </ul>
+
+        <script>
+            const tab_ui = {
+                tab : document.querySelector("ul.tab"),
+                tab_menu1 : document.querySelector("ul.tab > li.tab_menu:nth-child(1)"),
+                tab_menu2 : document.querySelector("ul.tab > li.tab_menu:nth-child(2)"),
+                tab_menu3 : document.querySelector("ul.tab > li.tab_menu:nth-child(3)"),
+                tab_menu4 : document.querySelector("ul.tab > li.tab_menu:nth-child(4)"),
+                init()
+                { 
+                    console.log("서비스 시작"); 
+                    this.tab.addEventListener("click", (evt) => { this.sendAjax(evt) });
+                },
+                sendAjax(evt)
+                { 
+                    let name = evt.target.innerText;
+                    console.log(name + "에서 Ajax를 요청합니다.");
+                }
+            };
+            tab_ui.init();
+        </script>
+
+        
+    </body>
+</html>

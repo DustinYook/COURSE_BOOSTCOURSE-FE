@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <!--HEAD-->
+    <head>
+        <title>테스트2</title>
+    </head>
+    <!--BODY-->
+    <body>
+        <script>
+            var others = {
+                todos : "난 절대로 아무것도 하지 않는다"
+            }
+
+            var todo = {
+                todos : ["자바스크립트 공부하기"],
+                addTodo : function(newTodo){ this.todos.push(newTodo); },
+                showTodo : function(){ return this.todos; }
+            };
+
+            console.log(todo.showTodo());
+            console.log(todo.showTodo.call(todo));
+            console.log(todo.showTodo.call(others));
+        </script>
+    </body>
+</html>

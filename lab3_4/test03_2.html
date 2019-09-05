@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--HANDLEBAR 라이브러리 등록-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js" 
+        integrity="sha256-/wU5o1HRMBu91AoM5TxLLP4aspWB+FH8dtrkJZGCPFg=" crossorigin="anonymous"></script>
+
+        <style>
+            ul, li
+            {
+                list-style: none;
+                font-size: 1vw;
+                font-weight: bold;
+            }
+
+            li
+            {
+                border: 3px solid gray;
+                border-radius: 25px;
+                padding: 20px;
+                float: left;
+                margin: 10px;
+            }
+
+            li:hover
+            {
+                border: 3px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <!--POST LIST-->
+        <div class="wrap">
+            <ul id="post-list"></ul>
+        </div>
+
+        <!--기존 TEMPLATE-->
+        <script type="text/template" id="list-template">
+            <li>
+                <div>게시자 : {{name}}</div>
+                <div class="content">{{content}}</div>
+                <div>좋아요 : <span>{{like}}</span></div>
+                <div class="comment">
+                    <div>{{comment}}</div>
+                </div>
+            </li>
+        </script>	
+
+        <!--배열을 위한 TEMPLATE-->
+        <script type="text/template" id="arr-list-template">
+            <li>
+                <div>게시자 : {{name}}</div>
+                <div class="content">{{content}}</div>
+                <div>좋아요 : <span>{{like}}</span></div>
+                    <div class="comment">
+                    <h3>댓글목록</h3>
+                    {{#each comment}}
+                        <div>{{@index}}번째 댓글 : {{this}}</div>
+                    {{/each}}
+                </div>
+            </li>
+        </script>
+        
+        <!--조건처리를 위한 TEMPLATE-->
+        <script type="text/template" id="cond-list-template">
+            <li>
+                <div>게시자 : {{name}}</div>
+                <div class="content">{{content}}</div>
+                <div>좋아요 : <span>{{like}}</span></div>
+                <div class="comment">
+                    <h3>댓글목록</h3>
+                    {{#if comment}}
+                        {{#each comment}}
+                            <div>{{@index}}번째 댓글 : {{this}}</div>
+                        {{/each}}
+                    {{else}}
+                        <div>댓글이 아직 없군요</div>
+                    {{/if}}
+                </div>
+            </li>
+        </script>
+
+        <!--LIKE TEMPLATE-->
+        <script type="text/template" id="like-list-template">
+            <li>
+                <div>게시자 : {{name}}</div>
+                <div class="content">{{content}}</div>
+            
+                {{#likes like}}
+                    {{like}}
+                {{/likes}}
+            
+                <div class="comment">
+                    <h3>댓글목록</h3>
+                    {{#if comment}}
+                        {{#each comment}}
+                            <div>{{@index}}번째 댓글 : {{this}}</div>
+                        {{/each}}
+                    {{else}}
+                        <div>댓글이 아직 없군요</div>
+                    {{/if}}
+                </div>
+            </li>
+        </script>	
+
+        <script>
+            // 템플릿 (HTML에 은닉한 템플릿)
+            const TEMPLATE = document.querySelector("#list-template").innerText;
+            // 데이터 (서버에서 보내주는 JSON 데이터)
+            const DATA = {
+                "id" : 88,
+                "name" : "crong",
+                "content" : "새로운글을 올렸어요",
+                "like" : 5, 
+                "comment" : "댓글이다"
+            };
+
+            // 바인딩 된 결과를 삽입할 요소
+            var postList = document.querySelector("#post-list");
+
+            // compile()은 템플릿 미리 읽고 데이터가 들어오면 결합수행 (precompile)
+            var handlebars = Handlebars.compile(TEMPLATE); // 기존의 replace 방식을 추상화
+            // console.log(handlebars); // compile()은 함수를 반환
+
+            postList.insertAdjacentHTML("afterbegin", handlebars(DATA));
+
+            // console.log(handlebars(DATA)); // 바인딩 된 템플릿을 반환함
+            // console.log(typeof(handlebars(DATA))); // typeof를 통해 string으로 HTML을 리턴함을 알 수 있음
+
+            const ARR_TEMPLATE = document.querySelector("#arr-list-template").innerText;
+            const ARR_DATA = {
+  	            "id" : 88,
+                "name" : "crong",
+                "content" : "새로운글을 올렸어요",
+                "like" : 5, 
+                "comment" : ["댓글이다", "멋진글이네요", "잘봤습니다"]
+            };
+            // console.log(handlebars(ARR_DATA));
+            var arrHandlebars = Handlebars.compile(ARR_TEMPLATE);
+            postList.insertAdjacentHTML("afterbegin", arrHandlebars(ARR_DATA));
+            // console.log(arrHandlebars(ARR_DATA));
+
+            const MANY_DATA = [
+                {"id" : 88, "name" : "crong", "content" : "새로운글을 올렸어요", "like" : 5, "comment" : ["댓글이다", "잘했어요"]},
+                {"id" : 28, "name" : "hary", "content" : "오늘도 노래를 불렀어요", "like" : 0, "comment" : ["제발고만","듣고싶네요 그노래"]},
+                {"id" : 23, "name" : "pororo", "content" : "크롱이 항상 말썽~", "like" : 4, "comment" : []},
+                {"id" : 5, "name" : "pobi", "content" : "물고기를 한마리도", "like" : 5, "comment" : ["댓글이다", "멋진글이네요", "잘봤습니다"]}
+            ];
+
+            // forEach를 이용한 방법
+            // MANY_DATA.forEach((item, index) => { postList.innerHTML += handlebars(item) });
+
+            // reduce를 이용한 방법
+            // postList.innerHTML += MANY_DATA.reduce((result, item) => (result + handlebars(item)), "");
+            // console.log(MANY_DATA.reduce((result, item) => (result + handlebars(item)), ""));
+
+            const COND_TEMPLATE = document.querySelector("#cond-list-template").innerText;
+            var condHandlebars = Handlebars.compile(COND_TEMPLATE);
+            MANY_DATA.forEach((item, index) => { postList.innerHTML += condHandlebars(item) });
+
+            Handlebars.registerHelper("likes", function(like){
+                if (like > 4) {
+                    return "<span>축하해요 좋아요가 " + like + "개 이상입니다!</span>";
+                } else if (like < 1) {
+                    return "아직 아무도 좋아하지 않아요..";
+                } else {
+                    return like + "개의 좋아요가 있네요";
+                }
+            });
+
+            const LIKE_TEMPLATE = document.querySelector("#like-list-template").innerText;
+            var likeHandlebars = Handlebars.compile(LIKE_TEMPLATE);
+            MANY_DATA.forEach((item, index) => { postList.innerHTML += likeHandlebars(item) });
+        </script>
+    </body>
+</html>

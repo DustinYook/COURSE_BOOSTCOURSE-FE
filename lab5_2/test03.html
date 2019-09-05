@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <style></style>
+    </head>
+    <body>
+        <script>
+            // /* 패턴을 찾아서 치환하는 예제 */
+            // {
+            //     let userInput = "011-4034-1075";
+            //     const REGEX = /(\d{2})\d/;
+            //     let replacedUserInput = userInput.replace(REGEX, "$10");
+            //     console.log(userInput);
+            //     console.log(replacedUserInput);
+            // }
+
+            // function funcName1(param){
+
+            // }
+
+            // function funcName(param1, param2){
+            //     return param1 + param2;
+            // }
+
+            // let arrFunc = (param1, param2) => param1 + param2;
+
+            {
+                let func = "function funcName(param1, param2){return param1 + param2;}";
+                const TO_ARROW_FUNC_REGEX = /function\s+([a-zA-Z_\D](.*)+)(\(.*\))/;
+                let replaced = func.replace(TO_ARROW_FUNC_REGEX, "$1");
+                console.log(replaced);
+            }
+            
+        </script>
+    </body>
+</html>
